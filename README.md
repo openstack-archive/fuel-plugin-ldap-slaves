@@ -1,1 +1,4 @@
-# fuel-plugin-ldap-slaves
+fuel-plugin-ldap-slaves
+============
+
+Plugin description
