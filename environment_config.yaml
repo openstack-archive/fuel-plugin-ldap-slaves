@@ -1,11 +1,82 @@
 attributes:
-  metadata:
-    # Settings group can be one of "general", "security", "compute", "network",
-    # "storage", "logging", "openstack_services" and "other".
-    group: 'other'
-  fuel-plugin-ldap-slaves_text:
-    value: 'Set default value'
-    label: 'Text field'
-    description: 'Description for text field'
+  domain_name:
+    value: 'example.com'
+    label: 'LDAP Domain name'
+    description: 'Domain name'
+    weight: 5
+    type: text
+    regex:
+      source: '^[a-zA-Z0-9._-]+$'
+      error: 'Domain name contains invalid characters'
+  uri:
+    value: 
+      - 'ldaps://example.com'
+    label: 'LDAP URI'
+    description: 'LDAP URI'
+    weight: 10
+    type: text_list
+    min: 1
+    max: 64
+    regex:
+      source: '^ldap[s]?:\/\/([a-zA-Z0-9._-]+)(:[0-9]+)?$'
+      error: 'Not a valid LDAP URI. Should be e.g. ldap://example.com'
+  binduser:
+    value: 'cn=ldapreader,ou=ServiceAccounts,dc=example,dc=com'
+    label: 'LDAP User'
+    description: 'Account to query LDAP server'
+    weight: 11
+    type: text
+    regex:
+      source: '^[a-zA-Z0-9_,=\S\\]+$'
+      error: "Account name contains invalid character or is empty"
+  bindpass:
+    value: 'password'
+    label: 'LDAP Password'
+    description: 'Password to query LDAP server'
+    weight: 12
+    type: password
+    regex:
+      source: '^\S+$'
+      error: "Password can't be empty or contain spaces"
+  use_tls:
+    value: false
+    label: 'Use TLS'
+    description: 'Use TLS when communicating with LDAP server'
+    weight: 14
+    type: checkbox
+  tls_cacert:
+    value: ''
+    label: 'CA Cerificate'
+    description: 'CA Certificate that signed LDAP server certificate'
+    weight: 15
+    type: textarea
+    restrictions:
+      - condition: 'settings:ldap-slaves.use_tls.value == false'
+        action: 'disable'
+    regex:
+      source: '^(-----BEGIN CERTIFICATE-----)(.*[\r\n])+(-----END CERTIFICATE-----[\s\S]*?)$|^$'
+      error: 'The certificate is not in valid PEM format'
+  search_base:
+    value: 'dc=example,dc=com'
+    label: 'Search base'
+    description: 'Search base defines the location in the LDAP directory where to start looking for objects'
+    weight: 20
+    type: text
+  access_filter:
+    value: ''
+    label: 'LDAP Access filter'
+    description: 'Access filter allows to limit access to Openstack Servers to specified group'
     weight: 25
-    type: "text"
+    type: text
+  home_directory_attr:
+    value: 'homeDirectory'
+    label: 'Home Directory Attribute'
+    description: 'Attribute name in user object, that holds path to user home directory, that should be created during first login'
+    weight: 30
+    type: text
+  ssh_key_attr:
+    value: 'sshPublicKey'
+    label: 'SSH Public Key Attribute'
+    description: 'Attribute name in user object, that holds users public key'
+    weight: 35
+    type: text

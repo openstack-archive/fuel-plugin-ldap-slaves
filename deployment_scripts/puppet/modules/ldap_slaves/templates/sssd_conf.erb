@@ -1,0 +1,24 @@
+[sssd]
+config_file_version = 2
+services = nss,pam,sudo,ssh
+domains = <%= @domain_name %>
+
+[nss]
+filter_users = root,lightdm,nslcd,dnsmasq,dbus,avahi
+filter_groups = root
+
+[pam]
+
+[ssh]
+debug_level = 6
+
+[domain/<%= @domain_name %>]
+ldap_schema = rfc2307
+id_provider = ldap
+auth_provider = ldap
+chpass_provider = ldap
+cache_credentials = True
+enumerate = false
+debug_level = 6
+fallback_homedir = /home/%u
+ldap_default_authtok_type = password
