@@ -1,4 +1,3 @@
-fuel-plugin-ldap-slaves
-============
+# This repo has moved to OpenDev
 
-Plugin description
+It can now be found at [https://opendev.org/x/fuel-plugin-ldap-slaves](https://opendev.org/x/fuel-plugin-ldap-slaves)
